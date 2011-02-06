@@ -4,6 +4,13 @@ mediaManager is a front end manager that will drive the conversion of media
 files from its raw format to format that can be consumed by various platforms. 
 
 
+After downloading all the files run:
+
+$> bundle 
+
+to donwload all the gems associated with the project. 
+
+
 
 
 == Welcome to Rails
