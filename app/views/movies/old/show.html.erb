@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @movie.title %>
+</p>
+
+<p>
+  <b>Filename:</b>
+  <%= @movie.filename %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @movie.date %>
+</p>
+
+<p>
+  <b>Speaker:</b>
+  <%= @movie.speaker %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%= @movie.category %>
+</p>
+
+<p>
+  <b>Parent:</b>
+  <%= @movie.parent %>
+</p>
+
+<p>
+  <b>Process venue:</b>
+  <%= @movie.process_venue %>
+</p>
+
+<p>
+  <b>Process mobile:</b>
+  <%= @movie.process_mobile %>
+</p>
+
+<p>
+  <b>Process website:</b>
+  <%= @movie.process_website %>
+</p>
+
+<p>
+  <b>Process mp3:</b>
+  <%= @movie.process_mp3 %>
+</p>
+
+<p>
+  <b>Process proof:</b>
+  <%= @movie.process_proof %>
+</p>
+
+<p>
+  <b>Process youtube:</b>
+  <%= @movie.process_youtube %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @movie.status %>
+</p>
+
+
+<%= link_to 'Edit', edit_movie_path(@movie) %> |
+<%= link_to 'Back', movies_path %>

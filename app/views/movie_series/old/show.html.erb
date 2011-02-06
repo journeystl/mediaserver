@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @movie_series.name %>
+</p>
+
+<p>
+  <b>Startdate:</b>
+  <%= @movie_series.startDate %>
+</p>
+
+
+<%= link_to 'Edit', edit_movie_series_path(@movie_series) %> |
+<%= link_to 'Back', movie_series_index_path %>

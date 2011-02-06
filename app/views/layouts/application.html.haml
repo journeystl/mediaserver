@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+%html{html_attrs}
+  %head
+    %title MediaManager
+    = javascript_include_tag 'uploadify/jquery-1.4.2.min.js'
+    = javascript_include_tag 'uploadify/jquery.uploadify.v2.1.4.min.js'
+    = javascript_include_tag 'uploadify/swfobject.js'
+    = javascript_include_tag 'rails'
+    = csrf_meta_tag
+    = stylesheet_link_tag 'formtastic.css'
+    = stylesheet_link_tag 'screen.css', :media => 'screen, projection'
+    = stylesheet_link_tag 'print.css', :media => 'print'
+    = stylesheet_link_tag 'uploadify.css'
+    /[if lt IE 8]
+      = stylesheet_link_tag 'ie.css', :media => 'screen, projection'
+  %body.bp.two-col
+    #container
+      #header
+        %h1 mediaManager
+ 
+      #sidebar
+        - if user_signed_in?
+          = current_user.email 
+          |
+          = link_to "Sign out", destroy_user_session_path 
+          %ul
+            %li 
+              = link_to "Movie Series", movie_series_index_path
+        - else  
+          = link_to "Sign up", new_user_registration_path 
+          |
+          = link_to "Sign in", new_user_session_path 
+      #content
+        - if flash[:notice]
+          #notice
+            %p= flash[:notice]
+        - if flash[:error]
+          #error
+            %p= flash[:error]
+        = yield

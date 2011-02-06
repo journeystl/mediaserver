@@ -1,0 +1,86 @@
+class MovieSeriesController < ApplicationController
+  before_filter :authenticate_user!
+
+
+  # GET /movie_series
+  # GET /movie_series.xml
+  def index
+    @movie_series = MovieSeries.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @movie_series }
+    end
+  end
+
+  # GET /movie_series/1
+  # GET /movie_series/1.xml
+  def show
+    @movie_series = MovieSeries.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @movie_series }
+    end
+  end
+
+  # GET /movie_series/new
+  # GET /movie_series/new.xml
+  def new
+    @movie_series = MovieSeries.new(:startDate => Date.today)
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @movie_series }
+    end
+  end
+
+  # GET /movie_series/1/edit
+  def edit
+    @movie_series = MovieSeries.find(params[:id])
+  end
+
+  # POST /movie_series
+  # POST /movie_series.xml
+  def create
+    @movie_series = MovieSeries.new(params[:movie_series])
+
+    respond_to do |format|
+      if @movie_series.save
+        format.html { redirect_to(@movie_series, :notice => 'Movie series was successfully created.') }
+        format.xml  { render :xml => @movie_series, :status => :created, :location => @movie_series }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @movie_series.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /movie_series/1
+  # PUT /movie_series/1.xml
+  def update
+    @movie_series = MovieSeries.find(params[:id])
+
+    respond_to do |format|
+      if @movie_series.update_attributes(params[:movie_series])
+        format.html { redirect_to(@movie_series, :notice => 'Movie series was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @movie_series.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /movie_series/1
+  # DELETE /movie_series/1.xml
+  def destroy
+    @movie_series = MovieSeries.find(params[:id])
+    @movie_series.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(movie_series_index_url) }
+      format.xml  { head :ok }
+    end
+  end
+end

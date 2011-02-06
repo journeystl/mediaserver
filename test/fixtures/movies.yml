@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: 
+  filename: 
+  date: 
+  speaker: 
+  category: 
+  parent: 
+  process_venue: 
+  process_mobile: 
+  process_website: 
+  process_mp3: 
+  process_proof: 
+  process_youtube: 
+  status: 
+
+two:
+  title: 
+  filename: 
+  date: 
+  speaker: 
+  category: 
+  parent: 
+  process_venue: 
+  process_mobile: 
+  process_website: 
+  process_mp3: 
+  process_proof: 
+  process_youtube: 
+  status: 

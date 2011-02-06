@@ -1,0 +1,30 @@
+<h1>Movies</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Filename</th>
+    <th>Date</th>
+    <th>Speaker</th>
+    <th>Type</th>
+    <th>Parent</th>
+    <th>Status</th>
+  </tr>
+  <% for movie in @movies %>
+    <tr>
+      <td><%=h movie.title %></td>
+      <td><%=h movie.filename %></td>
+      <td><%=h movie.date %></td>
+      <td><%=h movie.speaker %></td>
+      <td><%=h movie.category %></td>
+      <td><%=h movie.realparent %></td>
+      <td><%=h movie.status %></td>
+      <td><%=h MovieSeries.find(movie.movie_series_id).name unless (movie.movie_series_id == nil or MovieSeries.find(movie.movie_series_id) == nil) %></td>
+      <td><%= link_to "Show", movie %></td>
+      <td><%= link_to "Edit", edit_movie_path(movie) %></td>
+      <!--<td><%= link_to "Destroy", movie, :confirm => 'Are you sure?', :method => :delete %></td>-->
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Movie", new_movie_path %></p>

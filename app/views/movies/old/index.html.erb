@@ -1,0 +1,47 @@
+<h1>Listing movies</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Filename</th>
+    <th>Date</th>
+    <th>Speaker</th>
+    <th>Category</th>
+    <th>Parent</th>
+    <th>Process venue</th>
+    <th>Process mobile</th>
+    <th>Process website</th>
+    <th>Process mp3</th>
+    <th>Process proof</th>
+    <th>Process youtube</th>
+    <th>Status</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @movies.each do |movie| %>
+  <tr>
+    <td><%= movie.title %></td>
+    <td><%= movie.filename %></td>
+    <td><%= movie.date %></td>
+    <td><%= movie.speaker %></td>
+    <td><%= movie.category %></td>
+    <td><%= movie.parent %></td>
+    <td><%= movie.process_venue %></td>
+    <td><%= movie.process_mobile %></td>
+    <td><%= movie.process_website %></td>
+    <td><%= movie.process_mp3 %></td>
+    <td><%= movie.process_proof %></td>
+    <td><%= movie.process_youtube %></td>
+    <td><%= movie.status %></td>
+    <td><%= link_to 'Show', movie %></td>
+    <td><%= link_to 'Edit', edit_movie_path(movie) %></td>
+    <td><%= link_to 'Destroy', movie, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Movie', new_movie_path %>

@@ -1,0 +1,63 @@
+<h1>Movie</h1>
+
+<p>
+  <strong>Title:</strong>
+  <%=h @movie.title %>
+</p>
+<p>
+  <strong>Date:</strong>
+  <%=h @movie.date %>
+</p>
+<p>
+  <strong>Speaker:</strong>
+  <%=h @movie.speaker %>
+</p>
+<p>
+  <strong>Type:</strong>
+  <%=h @movie.category %>
+</p>
+<p>
+  <strong>Parent:</strong>
+  <%=h @movie.realparent %>
+</p>
+<p>
+<strong>Processing switches: </strong>
+<ul>
+<%= "<li>Venue</li>\n" if (@movie.process_venue) %>
+<%= "<li>Mobile</li>\n" if (@movie.process_mobile) %>
+<%= "<li>Website</li>\n" if (@movie.process_website) %>
+<%= "<li>Audio</li>\n" if (@movie.process_mp3) %>
+<%= "<li>Youtube</li>\n" if (@movie.process_youtube) %>
+<%= "<li>Proof</li>\n" if (@movie.process_proof) %>
+</ul>
+</p>
+<% if @movie.moviefile != nil  %>
+File uploaded already!
+<% else %>
+<input type="text" id="movie_filename">
+<script type="text/javascript">
+  $(function() {  
+    // encode the session into a Flash-save format
+    //<% arr = [] %>
+    //<% request.env['HTTP_COOKIE'].each_char{|c| arr.push(c[0].to_s)} %>
+    //<% session = arr.join("x") %>
+
+    $('#movie_filename').uploadify ({
+      script          : '/mediaManager/movies/upload/',
+      uploader        : '/mediaManager/javascripts/uploadify/uploadify.swf',
+      multi           : false,
+      auto            : true,
+      scriptData      : { 'movieid': '<%=@movie.id%>'},
+      onError         : function (event,ID,fileObj,errorObj) { alert(errorObj.type + ' Error: ' + errorObj.info);},
+      //scriptData      : {'session_encoded': '<%= session %>', 'foo': 'bar' },
+      cancelImg       : '/mediaManager/javascripts/uploadify/cancel.png'  //take care that the image is accessible
+    });
+  });
+</script>
+<% end %>
+
+<p>
+  <%= link_to "Edit", edit_movie_path(@movie) %> |
+  <%= link_to "Destroy", @movie, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", movie_series_path %>
+</p>

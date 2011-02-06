@@ -1,0 +1,20 @@
+<%= semantic_form_for @movie, :html => { :multipart => true } do |form| %>
+  <% form.inputs do %>
+    <li><label>Thumbnail: </label><%= form.file_field :thumbpic %></li>
+    <%= form.inputs :title, :speaker %>
+    <%= form.input :date, :as => :date %>
+    <%= form.input :category, :as => :select, :collection => ["Sermon", "Sermon Clip", "Short", "Proof"] %>
+    Publishing options: 
+    <%= form.input :process_venue, :as => :boolean, :label => "Venue"%>
+    <%= form.input :process_proof, :as => :boolean, :label => "Proof version"%>
+    <%= form.input :process_website, :as => :boolean, :label => "Website"%>
+    <%= form.input :process_mobile, :as => :boolean, :label => "Mobile"%>
+    <%= form.input :process_mp3, :as => :boolean, :label => "Audio"%>
+    <%= form.input :process_youtube, :as => :boolean, :label => "Publish to Youtube"%>
+    <%= form.input :parent, :as => :select, :collection => Movie.selectcollection, :include_blank => false %>
+    <%= form.input :status, :as => :hidden %>
+    <li class="select optional"><%= form.label :movie_series %> <%= form.select :movie_series, options_for_select(MovieSeries.all.map{|ut| [ut.name,ut._id]}, @movie.movie_series.id), {:include_blank => 'None'} %></li>
+  <% end %> 
+  <%= form.buttons :commit %>
+<% end %>
+

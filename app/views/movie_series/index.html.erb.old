@@ -1,0 +1,68 @@
+<h1> Movie Series </h1>
+<ul>
+  <% for movie_series in @movie_series %>
+    <li>
+      <% if movie_series.thumbpic.exists? then %>
+	      <%= image_tag movie_series.thumbpic.url(:small) %>
+      <% end %>
+      <%=h movie_series.startDate %>
+      <%=h movie_series.name %>
+      <%= link_to "Show", movie_series %>
+      <%= link_to "Edit", edit_movie_series_path(movie_series) %>
+      <!--<%= link_to "Destroy", movie_series, :confirm => 'Are you sure?', :method => :delete %>-->
+      <ul>
+    <% for movie in movie_series.parentmovies %>
+      <li>
+      <% if movie.thumbpic.exists? then %>
+	      <%= image_tag movie.thumbpic.url(:small) %>
+      <% end %>
+      <%=h movie.date %> - <%=h movie.category %> - <%=h movie.title %>
+      <%= link_to "Show", movie %>
+      <%= link_to "Edit", edit_movie_path(movie) %>
+      <ul>
+      <% for childmovie in movie.children %>
+        <li>
+          <% if childmovie.thumbpic.exists? then %>
+	          <%= image_tag childmovie.thumbpic.url(:small) %>
+          <% end %>
+          <%=h childmovie.date %> - <%=h childmovie.category %> - <%=h childmovie.title %>
+          <%= link_to "Show", childmovie %>
+          <%= link_to "Edit", edit_movie_path(childmovie) %>
+        </li>
+      <% end %>
+      </ul>
+      </li>
+    <% end %>
+    </ul>
+    </li>
+  <% end %>
+</ul>
+
+<h3> Standalone Movies </h3>
+<ul>
+    <% for movie in Movie.standalone %>
+      <li>
+      <% if movie.thumbpic.exists? then %>
+	      <%= image_tag movie.thumbpic.url(:small) %>
+      <% end %>
+      <%=h movie.date %> - <%=h movie.category %> - <%=h movie.title %>
+      <%= link_to "Show", movie %>
+      <%= link_to "Edit", edit_movie_path(movie) %>
+      <ul>
+      <% for childmovie in movie.children %>
+        <li>
+          <% if childmovie.thumbpic.exists? then %>
+	          <%= image_tag childmovie.thumbpic.url(:small) %>
+          <% end %>
+          <%=h childmovie.date %> - <%=h childmovie.category %> - <%=h childmovie.title %>
+          <%= link_to "Show", childmovie %>
+          <%= link_to "Edit", edit_movie_path(childmovie) %>
+        </li>
+      <% end %>
+      </ul>
+      </li>
+    <% end %>
+</ul>
+
+<p><%= link_to "New movie series", new_movie_series_path %></p>
+<p><%= link_to "Add new movie", new_movie_path %></p>
