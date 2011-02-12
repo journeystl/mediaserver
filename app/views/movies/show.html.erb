@@ -1,17 +1,7 @@
-<h1>Movie</h1>
-
-<p>
-  <strong>Title:</strong>
-  <%=h @movie.title %>
-</p>
-<p>
-  <strong>Date:</strong>
-  <%=h @movie.date %>
-</p>
-<p>
-  <strong>Speaker:</strong>
-  <%=h @movie.speaker %>
-</p>
+<h1><%=h @movie.title %></h1>
+<h2><%=h @movie.speaker %></h2>
+<h3><%=h @movie.date %></h3>
+<% if @movie.moviefile != nil  %>
 <p>
   <strong>Type:</strong>
   <%=h @movie.category %>
@@ -31,10 +21,16 @@
 <%= "<li>Proof</li>\n" if (@movie.process_proof) %>
 </ul>
 </p>
-<% if @movie.moviefile != nil  %>
 File uploaded already!
+<p>
+  <%= link_to "Edit", edit_movie_path(@movie) %> |
+  <%= link_to "Destroy", @movie, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", movie_series_index_path %>
+</p>
 <% else %>
+<h2 id="labelupload">Please upload file now</h2>
 <input type="text" id="movie_filename">
+<%= link_to "View All", movie_series_index_path %>
 <script type="text/javascript">
   $(function() {  
     // encode the session into a Flash-save format
@@ -50,14 +46,13 @@ File uploaded already!
       scriptData      : { 'movieid': '<%=@movie.id%>'},
       onError         : function (event,ID,fileObj,errorObj) { alert(errorObj.type + ' Error: ' + errorObj.info);},
       //scriptData      : {'session_encoded': '<%= session %>', 'foo': 'bar' },
-      cancelImg       : '/mediaManager/javascripts/uploadify/cancel.png'  //take care that the image is accessible
+      cancelImg       : '/mediaManager/javascripts/uploadify/cancel.png',  //take care that the image is accessible
+      onComplete: function(event, queueID, fileObj, reposnse, data) {
+		$('#labelupload').html(fileObj.name + ' succesfully uploaded!');
+		$('#movie_filenameUploader').hide();
+      }
     });
   });
 </script>
 <% end %>
 
-<p>
-  <%= link_to "Edit", edit_movie_path(@movie) %> |
-  <%= link_to "Destroy", @movie, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", movie_series_path %>
-</p>
