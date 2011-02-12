@@ -19,6 +19,7 @@ gem "aws-s3",            :require => "aws/s3"
 gem "compass", ">= 0.10.6"
 gem "haml"
 gem 'mime-types', :require => 'mime/types'
+gem "newrelic_rpm"
 # Use unicorn as the web server
 # gem 'unicorn'
 

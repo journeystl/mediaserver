@@ -65,6 +65,7 @@ GEM
       will_paginate (~> 3.0.pre)
     mongoid-paperclip (0.0.2)
       paperclip (~> 2.3.6)
+    newrelic_rpm (2.13.4)
     paperclip (2.3.8)
       activerecord
       activesupport
@@ -110,4 +111,5 @@ DEPENDENCIES
   mime-types
   mongoid (= 2.0.0.rc.6)
   mongoid-paperclip
+  newrelic_rpm
   rails (= 3.0.3)
