@@ -1,0 +1,18 @@
+%h2 Processing Queue
+%table
+  %tr
+    %th Status
+    %th Title
+    %th Created at
+    %th link
+  - for movie in @allmovies
+    %tr
+      %td
+        = movie.status
+      %td
+        = movie.title
+      %td
+        = movie.created_at
+      %td
+        \#{link_to "Show", movie}
+

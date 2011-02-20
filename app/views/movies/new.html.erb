@@ -3,6 +3,9 @@
 <%= semantic_form_for @movie, :html => { :class=>"bbq", :multipart => true } do |form| %>
 <div id="fieldWrapper"> 
   <% form.inputs :class=>"step", :id=>"first"  do %>
+    <%= form.input :moviefile, :as => :radio, :collection => @newfiles, :label => "Select a movie file to enter information for:" %>
+  <% end %> 
+  <% form.inputs :class=>"step", :id=>"meta" do %>
     <%= form.input :title, :input_html => { :class => 'required' } %>
     <%= form.input :speaker, :input_html => { :class => 'required' } %>
     <%= form.input :date, :as => :date %>

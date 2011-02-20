@@ -47,7 +47,7 @@ class MovieSeriesController < ApplicationController
 
     respond_to do |format|
       if @movie_series.save
-        format.html { redirect_to(@movie_series, :notice => 'Movie series was successfully created.') }
+        format.html { redirect_to(movie_series_index_url, :notice => 'Movie series was successfully created.') }
         format.xml  { render :xml => @movie_series, :status => :created, :location => @movie_series }
       else
         format.html { render :action => "new" }
@@ -63,7 +63,7 @@ class MovieSeriesController < ApplicationController
 
     respond_to do |format|
       if @movie_series.update_attributes(params[:movie_series])
-        format.html { redirect_to(@movie_series, :notice => 'Movie series was successfully updated.') }
+        format.html { redirect_to(movie_series_index_url, :notice => 'Movie series was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

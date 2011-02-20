@@ -1,0 +1,6 @@
+form.formtastic fieldset > ol > li {
+  padding:14px;
+}
+form.formtastic fieldset {
+  padding:7px;
+}

@@ -1,6 +1,8 @@
+<%= image_tag(@movie.thumbpic.url(:original)) %>
 <h1><%=h @movie.title %></h1>
 <h2><%=h @movie.speaker %></h2>
 <h3><%=h @movie.date %></h3>
+<h4><%=h @movie.moviefile %></h4>
 <% if @movie.moviefile != nil  %>
 <p>
   <strong>Type:</strong>
@@ -21,13 +23,13 @@
 <%= "<li>Proof</li>\n" if (@movie.process_proof) %>
 </ul>
 </p>
-File uploaded already!
 <p>
   <%= link_to "Edit", edit_movie_path(@movie) %> |
   <%= link_to "Destroy", @movie, :confirm => 'Are you sure?', :method => :delete %> |
   <%= link_to "View All", movie_series_index_path %>
 </p>
 <% else %>
+  <!--
 <h2 id="labelupload">Please upload file now</h2>
 <input type="text" id="movie_filename">
 <%= link_to "View All", movie_series_index_path %>
@@ -54,5 +56,6 @@ File uploaded already!
     });
   });
 </script>
+-->
 <% end %>
 

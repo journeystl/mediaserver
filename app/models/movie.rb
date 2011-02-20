@@ -1,6 +1,7 @@
 class Movie
   include Mongoid::Document
   include Mongoid::Paperclip
+  include Mongoid::Timestamps
 
 
   has_attached_file :thumbpic, 
@@ -22,9 +23,9 @@ class Movie
   field :process_proof, :type => Boolean
   field :process_youtube, :type => Boolean
   field :status, :type => String
+  field :moviefile, :type => String
 
   referenced_in :movie_series
-  embeds_one :moviefile
 
   def realparent 
     if self.parent != -1 and self.parent != nil

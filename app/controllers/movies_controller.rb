@@ -1,23 +1,12 @@
 class MoviesController < ApplicationController
+
   before_filter :authenticate_user!, :except => :upload
   skip_before_filter :verify_authenticity_token, :only => :upload
-
-  def upload
-    @movie = Movie.find(params[:movieid])
-    logger.info "Processing the upload request..." + @movie.title
-    @movie.build_moviefile(:file => params[:Filedata])
-    #logger.debug "New post: #{@post.attributes.inspect}"
-    if (@movie.save)
-      render :json => { 'status' => 'success'  }
-    else
-      render :json => { 'status' => 'error'  }
-    end
-  end 
 
   # GET /movies
   # GET /movies.xml
   def index
-    @movies = Movie.all
+    @allmovies = Movie.find(:conditions => {:status => "In queue"}).entries.sort{ |a,b| a.created_at <=> b.created_at}
 
     respond_to do |format|
       format.html # index.html.erb
@@ -40,6 +29,7 @@ class MoviesController < ApplicationController
   # GET /movies/new.xml
   def new
     @movie = Movie.new(:date => Date.today, :parent => -1, :status => "In queue")
+    @newfiles = Dir.glob("/home/media/toProcess/Pipeline/*.*")
 
     respond_to do |format|
       format.html # new.html.erb

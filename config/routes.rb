@@ -5,12 +5,6 @@ MediaManager::Application.routes.draw do
 
   resources :movies
 
-  resources :movies do
-    collection do
-      post 'upload'
-    end
-  end
-
   root :to => "movie_series#index"
 
   # The priority is based upon order of creation:

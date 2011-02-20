@@ -1,4 +1,4 @@
-<%= semantic_form_for (@movie_series, :url => movie_series_index_path, :html => { :multipart => true }) do |form| %>
+<%= semantic_form_for (@movie_series, :html => { :multipart => true }) do |form| %>
   <% form.inputs do %>
     <%= form.input :name %>
     <li><label>Thumbnail: </label><%= form.file_field :thumbpic %></li>
