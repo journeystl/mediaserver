@@ -22,10 +22,15 @@ class Movie
   field :category, :type => String
   field :parent, :type => Integer
   field :process_venue, :type => Boolean
+  field :url_venue, :type => String
   field :process_mobile, :type => Boolean
+  field :url_mobile, :type => String
   field :process_website, :type => Boolean
+  field :url_website, :type => String
   field :process_mp3, :type => Boolean
+  field :url_mp3, :type => String
   field :process_proof, :type => Boolean
+  field :url_proof, :type => String
   field :process_youtube, :type => Boolean
   field :status, :type => String
   field :moviefile, :type => String
