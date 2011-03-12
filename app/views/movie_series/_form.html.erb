@@ -3,6 +3,8 @@
     <%= form.input :name %>
     <li><label>Thumbnail: </label><%= form.file_field :thumbpic %></li>
     <%= form.input :startDate, :as => :date, :label => "Series start date" %>
+    <%= form.input :category, :as => :select, :collection => ["Event", "Sermon", "Music", "Promotion", "Story"] %>
+
   <% end %>
   <%= form.submit %>
 <% end %>
