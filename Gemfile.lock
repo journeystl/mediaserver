@@ -39,6 +39,7 @@ GEM
     builder (2.1.2)
     compass (0.10.6)
       haml (>= 3.0.4)
+    daemons (1.1.0)
     devise (1.1.5)
       bcrypt-ruby (~> 2.1.2)
       warden (~> 1.0.2)
@@ -105,6 +106,7 @@ DEPENDENCIES
   aws-s3
   bson_ext
   compass (>= 0.10.6)
+  daemons
   devise
   formtastic (~> 1.1.0)
   haml

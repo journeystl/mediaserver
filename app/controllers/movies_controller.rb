@@ -6,7 +6,7 @@ class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.xml
   def index
-    @allmovies = Movie.find(:conditions => {:status => "In queue"}).entries.sort{ |a,b| a.created_at <=> b.created_at}
+    @allmovies = Movie.excludes(:status => "Finished").entries.sort{ |a,b| a.created_at <=> b.created_at}
 
     respond_to do |format|
       format.html # index.html.erb

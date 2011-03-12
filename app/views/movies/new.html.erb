@@ -1,4 +1,4 @@
-<h1>New Video Clip</h1>
+<h1>New Video</h1>
 
 <%= semantic_form_for @movie, :html => { :class=>"bbq", :multipart => true } do |form| %>
 <div id="fieldWrapper"> 
@@ -12,12 +12,17 @@
     <li><label>Thumbnail: </label><%= form.file_field :thumbpic %></li>
   <% end %> 
   <% form.inputs :class=>"step", :id=>"finland" do %>
-    <%= form.input :category, :as => :select, :collection => ["Saturday Sermon Version", "Sermon", "Sermon Clip", "Short", "Standalone", "Scratchpad"], :input_html => { :onChange =>"reveal();"} %>
+    <%= form.input :category, :as => :select, :collection => ["Saturday Sermon Version", "Sermon", "Clip", "Standalone", "Scratchpad"], :input_html => { :onChange =>"reveal();"} %>
     <li><p id="helper"> </p></li>
     <%= form.input :parent, :as => :select, :collection => Movie.selectcollection, :include_blank => false, :wrapper_html => { :style => "display:none;" } %>
     <%= form.input :status, :as => :hidden %>
     <li id="movie_series_li" class="select optional" style="display:none"><%= form.label :movie_series %> <%= form.select :movie_series, options_for_select(MovieSeries.all.map{|ut| [ut.name,ut._id]}, @movie.movie_series.id), {:include_blank => 'None'} %></li>
-  <% end %> 
+    <%= form.input :scriptureref, :wrapper_html => { :style => "display:none;" } %>
+    <%= form.input :bookofbible, :wrapper_html => { :style => "display:none;" } %>
+  <% end %>
+  <% form.inputs :class=>"step", :id=>"descriptions" do %>
+    <%= form.input :summary, :as => :text %>
+  <% end %>
   <% form.inputs :class=>"step", :id=>"confirmation" do %>
     <span id="publishtitle">Default Publishing options: </span>
     <%= form.input :process_venue, :as => :boolean, :label => "Venue"%>
@@ -26,9 +31,9 @@
     <%= form.input :process_mobile, :as => :boolean, :label => "Mobile"%>
     <%= form.input :process_mp3, :as => :boolean, :label => "Audio"%>
     <%= form.input :process_youtube, :as => :boolean, :label => "Publish to Youtube"%>
-  <% end %> 
+  <% end %>
 </div>
-				<div id="demoNavigation"> 							
+				<div id="demoNavigation">
 					<input class="navigation_button" id="back" value="Back" type="reset" /> 
 					<input class="navigation_button" id="next" value="Next" type="submit" /> 
 				</div> 
@@ -51,6 +56,8 @@ function reveal() {
 		case 'Saturday Sermon Version':
 			$('#helper').html("Sermons to be played at other venues and not published online.");
 			$('#movie_series_li').show();
+			$('#movie_scriptureref_input').show();
+			$('#movie_bookofbible_input').show();
 			$('#movie_parent_input').hide();
 			$('#movie_process_venue').selected(true);
 			$('#movie_process_proof').selected(true);
@@ -63,6 +70,21 @@ function reveal() {
 			$('#helper').html("Regular weekly sermons to be published online.");
 			$('#movie_series_li').show();
 			$('#movie_parent_input').hide();
+			$('#movie_scriptureref_input').show();
+			$('#movie_bookofbible_input').show();
+			$('#movie_process_venue').selected(true);
+			$('#movie_process_proof').selected(false);
+			$('#movie_process_website').selected(true);
+			$('#movie_process_mobile').selected(true);
+			$('#movie_process_mp3').selected(true);
+			$('#movie_process_youtube').selected(false);
+			break;
+		case 'Clip':
+			$('#helper').html("Abbreviated movie clips from sermons.");
+			$('#movie_series_li').hide();
+			$('#movie_parent_input').show();
+			$('#movie_scriptureref_input').hide();
+			$('#movie_bookofbible_input').hide();
 			$('#movie_process_venue').selected(false);
 			$('#movie_process_proof').selected(false);
 			$('#movie_process_website').selected(true);
@@ -70,21 +92,12 @@ function reveal() {
 			$('#movie_process_mp3').selected(true);
 			$('#movie_process_youtube').selected(true);
 			break;
-		case 'Sermon Clip':
-			$('#helper').html("Abbreviated movie clips from sermons.");
-			$('#movie_series_li').hide();
-			$('#movie_parent_input').show();
-			$('#movie_process_venue').selected(true);
-			$('#movie_process_proof').selected(true);
-			$('#movie_process_website').selected(false);
-			$('#movie_process_mobile').selected(false);
-			$('#movie_process_mp3').selected(false);
-			$('#movie_process_youtube').selected(false);
-			break;
 		case 'Standalone':
 			$('#helper').html("Videos that don't belong anywhere else such as guest talks");
 			$('#movie_series_li').hide();
 			$('#movie_parent_input').hide();
+			$('#movie_scriptureref_input').hide();
+			$('#movie_bookofbible_input').hide();
 			$('#movie_process_venue').selected(true);
 			$('#movie_process_proof').selected(true);
 			$('#movie_process_website').selected(false);
@@ -96,7 +109,9 @@ function reveal() {
 			$('#helper').html("Videos that are shorts. Only pick one below");
 			$('#movie_series_li').show();
 			$('#movie_parent_input').show();
-			$('#movie_process_venue').selected(true);
+			$('#movie_scriptureref_input').hide();
+			$('#movie_bookofbible_input').hide();
+			$('#movie_process_venue').selected(false);
 			$('#movie_process_proof').selected(true);
 			$('#movie_process_website').selected(false);
 			$('#movie_process_mobile').selected(false);
@@ -107,6 +122,8 @@ function reveal() {
 			$('#helper').html("This is for movies that are still under development.");
 			$('#movie_parent_input').hide();
 			$('#movie_series_li').hide();
+			$('#movie_scriptureref_input').hide();
+			$('#movie_bookofbible_input').hide();
 			$('#movie_process_venue').selected(false);
 			$('#movie_process_proof').selected(true);
 			$('#movie_process_website').selected(false);

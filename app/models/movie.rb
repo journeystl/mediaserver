@@ -14,6 +14,11 @@ class Movie
   field :title, :type => String
   field :date, :type => Date
   field :speaker, :type => String
+  field :bookofbible, :type => String
+  field :scriptureref, :type => String
+  field :summary, :type => String
+  field :speaker, :type => String
+  field :duration, :type => String
   field :category, :type => String
   field :parent, :type => Integer
   field :process_venue, :type => Boolean
@@ -24,6 +29,8 @@ class Movie
   field :process_youtube, :type => Boolean
   field :status, :type => String
   field :moviefile, :type => String
+  field :filesize, :type => Integer
+  field :notchanged, :type => Boolean, :default => false
 
   referenced_in :movie_series
 

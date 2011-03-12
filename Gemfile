@@ -20,6 +20,8 @@ gem "compass", ">= 0.10.6"
 gem "haml"
 gem 'mime-types', :require => 'mime/types'
 gem "newrelic_rpm"
+
+gem 'daemons'
 # Use unicorn as the web server
 # gem 'unicorn'
 

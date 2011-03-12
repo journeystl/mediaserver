@@ -8,6 +8,8 @@ class MovieSeries
     :path           => ':attachment/:id/:style.:extension',
     :bucket => 'movie_series_pics'
   field :name, :type => String
+  field :tagline, :type => String
+  field :category, :type => String
   field :startDate, :type => Date
 
   references_many :movies
