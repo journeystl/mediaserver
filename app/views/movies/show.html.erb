@@ -1,4 +1,4 @@
-<%= image_tag(@movie.thumbpic.url(:original)) %>
+<!--<%= image_tag(@movie.thumbpic.url(:original)) %>-->
 <h1><%=h @movie.title %></h1>
 <h2><%=h @movie.speaker %></h2>
 <h3><%=h @movie.date %></h3>
@@ -14,48 +14,54 @@
 </p>
 <p>
 <strong>Processing switches: </strong>
-<ul>
-<%= "<li>Venue</li>\n" if (@movie.process_venue) %>
-<%= "<li>Mobile</li>\n" if (@movie.process_mobile) %>
-<%= "<li>Website</li>\n" if (@movie.process_website) %>
-<%= "<li>Audio</li>\n" if (@movie.process_mp3) %>
-<%= "<li>Youtube</li>\n" if (@movie.process_youtube) %>
-<%= "<li>Proof</li>\n" if (@movie.process_proof) %>
-</ul>
+<pre><%= "Venue\n" if (@movie.process_venue) %><%= "Mobile\n" if (@movie.process_mobile) %><%= "Website\n" if (@movie.process_website) %><%= "Audio\n" if (@movie.process_mp3) %><%= "Youtube\n" if (@movie.process_youtube) %><%= "Proof\n" if (@movie.process_proof) %></pre>
+
+<strong>Book of bible:</strong>
+<p><%=@movie.bookofbible%></p>
+
+
+<strong>Scripture Reference:</strong>
+<p><%=@movie.scriptureref%></p>
+
+
+<strong>Summary:</strong>
+<p><%=@movie.summary%></p>
+
+<strong>Online material:</strong>
+<% if @movie.url_website != nil %>
+<%= javascript_include_tag "flowplayer/flowplayer-3.2.6.min.js" %>
+<style>
+a.rtmp {
+      display:block;
+      width:640px;
+      height:360px;
+      margin:25px 0;
+      text-align:center;
+      background-color:black;
+}
+</style>
+<a class="rtmp" href="mp4:<%=@movie.url_website.split("/")[4,5].join("/").chomp(".mp4") %>"/>
+<img src="<%=@movie.thumbpic.url(:original)%>" width=640px height=360px alt="PLAY ME" />
+</a>
+<script type="text/javascript">
+$f("a.rtmp", "/mediaManager/javascripts/flowplayer/flowplayer-3.2.7.swf", { 
+  //  This next code configures the player to use rtmp plugin for streaming. 
+  clip: { 
+    provider: 'rtmp'
+  },
+  plugins: {
+    rtmp: {
+      url: '/mediaManager/javascripts/flowplayer/flowplayer.rtmp-3.2.3.swf',
+      netConnectionUrl: 'rtmp://swqg8jtg7ui33.cloudfront.net/cfx/st'
+    }
+  }
+});
+</script>
+<% end %>
 </p>
 <p>
   <%= link_to "Edit", edit_movie_path(@movie) %> |
   <%= link_to "Destroy", @movie, :confirm => 'Are you sure?', :method => :delete %> |
   <%= link_to "View All", movie_series_index_path %>
 </p>
-<% else %>
-  <!--
-<h2 id="labelupload">Please upload file now</h2>
-<input type="text" id="movie_filename">
-<%= link_to "View All", movie_series_index_path %>
-<script type="text/javascript">
-  $(function() {  
-    // encode the session into a Flash-save format
-    //<% arr = [] %>
-    //<% request.env['HTTP_COOKIE'].each_char{|c| arr.push(c[0].to_s)} %>
-    //<% session = arr.join("x") %>
-
-    $('#movie_filename').uploadify ({
-      script          : '/mediaManager/movies/upload/',
-      uploader        : '/mediaManager/javascripts/uploadify/uploadify.swf',
-      multi           : false,
-      auto            : true,
-      scriptData      : { 'movieid': '<%=@movie.id%>'},
-      onError         : function (event,ID,fileObj,errorObj) { alert(errorObj.type + ' Error: ' + errorObj.info);},
-      //scriptData      : {'session_encoded': '<%= session %>', 'foo': 'bar' },
-      cancelImg       : '/mediaManager/javascripts/uploadify/cancel.png',  //take care that the image is accessible
-      onComplete: function(event, queueID, fileObj, reposnse, data) {
-		$('#labelupload').html(fileObj.name + ' succesfully uploaded!');
-		$('#movie_filenameUploader').hide();
-      }
-    });
-  });
-</script>
--->
 <% end %>
-

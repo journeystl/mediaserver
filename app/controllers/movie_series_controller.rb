@@ -1,6 +1,13 @@
 class MovieSeriesController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:json_sermon_series]
 
+  def json_sermon_series
+    @series = MovieSeries.all(:conditions => {:category => "Sermon"}).entries
+    for a in @series 
+      a["allmovies"] = a.movies.excludes(:url_website => nil).entries
+    end
+    render :json => @series
+  end
 
   # GET /movie_series
   # GET /movie_series.xml

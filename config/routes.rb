@@ -1,4 +1,5 @@
 MediaManager::Application.routes.draw do
+  get 'movie_series/json_sermon_series'
   resources :movie_series
 
   devise_for :users
@@ -6,6 +7,7 @@ MediaManager::Application.routes.draw do
   resources :movies
 
   root :to => "movie_series#index"
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
