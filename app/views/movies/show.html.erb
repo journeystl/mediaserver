@@ -2,7 +2,6 @@
 <h1><%=h @movie.title %></h1>
 <h2><%=h @movie.speaker %></h2>
 <h3><%=h @movie.date %></h3>
-<h4><%=h @movie.moviefile %></h4>
 <% if @movie.moviefile != nil  %>
 <p>
   <strong>Type:</strong>
@@ -82,7 +81,7 @@ $f("a.rtmp", "/mediaManager/javascripts/flowplayer/flowplayer-3.2.7.swf", {
 
 <p>
   <%= link_to "Edit", edit_movie_path(@movie) %> |
-  <%= link_to "Destroy", @movie, :confirm => 'Are you sure?', :method => :delete %> |
+  <!--<%= link_to "Destroy", @movie, :confirm => 'Are you sure?', :method => :delete %> |-->
   <%= link_to "View All", movie_series_index_path %>
 </p>
 <% end %>
