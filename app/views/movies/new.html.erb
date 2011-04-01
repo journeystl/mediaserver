@@ -17,8 +17,8 @@
     <%= form.input :parent, :as => :select, :collection => Movie.selectcollection, :include_blank => false, :wrapper_html => { :style => "display:none;" } %>
     <%= form.input :status, :as => :hidden %>
     <li id="movie_series_li" class="select optional" style="display:none"><%= form.label :movie_series %> <%= form.select :movie_series, options_for_select(MovieSeries.all.map{|ut| [ut.name,ut._id]}, @movie.movie_series.id), {:include_blank => 'None'} %></li>
-    <%= form.input :scriptureref, :wrapper_html => { :style => "display:none;" } %>
-    <%= form.input :bookofbible, :wrapper_html => { :style => "display:none;" } %>
+    <%= form.input :scriptureref, :label => "Scripture Reference:", :wrapper_html => { :style => "display:none;" } %>
+    <%= form.input :bookofbible, :label => "Book of Bible:", :wrapper_html => { :style => "display:none;" } %>
   <% end %>
   <% form.inputs :class=>"step", :id=>"descriptions" do %>
     <%= form.input :summary, :as => :text %>
