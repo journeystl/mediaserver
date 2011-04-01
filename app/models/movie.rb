@@ -21,6 +21,8 @@ class Movie
   field :duration, :type => String
   field :category, :type => String
   field :parent, :type => Integer
+  field :archived, :type => Boolean, :default => false 
+  field :loc_archived, :type => String
   field :process_venue, :type => Boolean
   field :url_venue, :type => String
   field :process_mobile, :type => Boolean
@@ -32,6 +34,7 @@ class Movie
   field :process_proof, :type => Boolean
   field :url_proof, :type => String
   field :process_youtube, :type => Boolean
+  field :url_youtube, :type => String
   field :status, :type => String
   field :moviefile, :type => String
   field :filesize, :type => Integer
@@ -39,7 +42,7 @@ class Movie
 
   referenced_in :movie_series
 
-  def realparent 
+  def realparent
     if self.parent != -1 and self.parent != nil
       @a = Movie.find(self.parent)
       return @a.title

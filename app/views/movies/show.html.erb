@@ -16,19 +16,29 @@
 <strong>Processing switches: </strong>
 <pre><%= "Venue\n" if (@movie.process_venue) %><%= "Mobile\n" if (@movie.process_mobile) %><%= "Website\n" if (@movie.process_website) %><%= "Audio\n" if (@movie.process_mp3) %><%= "Youtube\n" if (@movie.process_youtube) %><%= "Proof\n" if (@movie.process_proof) %></pre>
 
-<strong>Book of bible:</strong>
-<p><%=@movie.bookofbible%></p>
+<p> <strong>Book of bible:</strong> <%=@movie.bookofbible%></p>
 
+<p><strong>Scripture Reference:</strong> <%=@movie.scriptureref%></p>
 
-<strong>Scripture Reference:</strong>
-<p><%=@movie.scriptureref%></p>
-
+<% if @movie.duration != nil %>
+<p><strong>Duration:</strong> <%=@movie.duration%></p>
+<% end %>
 
 <strong>Summary:</strong>
 <p><%=@movie.summary%></p>
 
 <strong>Online material:</strong>
-<% if @movie.url_website != nil %>
+<ul>
+<% if @movie.url_mp3 != nil %>
+  <li><a href="<%=@movie.url_mp3%>">Audio MP3 link</a></li>
+<% end %>
+<% if @movie.url_youtube != nil %>
+  <li><a href="<%=@movie.url_youtube%>">Youtube link</a></li>
+<% end %>
+<% if @movie.url_mobile != nil %>
+  <li><a href="<%=@movie.url_mobile%>">iPhone m3u8 link</a></li>
+<% end %>
+</ul>
 <%= javascript_include_tag "flowplayer/flowplayer-3.2.6.min.js" %>
 <style>
 a.rtmp {
@@ -40,13 +50,25 @@ a.rtmp {
       background-color:black;
 }
 </style>
+
+<% if @movie.url_website != nil %>
+<p>
 <a class="rtmp" href="mp4:<%=@movie.url_website.split("/")[4,5].join("/").chomp(".mp4") %>"/>
 <img src="<%=@movie.thumbpic.url(:original)%>" width=640px height=360px alt="PLAY ME" />
 </a>
+</p>
+<% end %>
+<% if @movie.url_proof != nil %>
+<p>
+<a class="rtmp" href="mp4:<%=@movie.url_proof.split("/")[4,5].join("/").chomp(".mp4") %>"/>
+<img src="<%=@movie.thumbpic.url(:original)%>" width=320px height=180px alt="PLAY ME" />
+</a>
+</p>
+<% end %>
 <script type="text/javascript">
 $f("a.rtmp", "/mediaManager/javascripts/flowplayer/flowplayer-3.2.7.swf", { 
   //  This next code configures the player to use rtmp plugin for streaming. 
-  clip: { 
+  clip: {
     provider: 'rtmp'
   },
   plugins: {
@@ -57,8 +79,7 @@ $f("a.rtmp", "/mediaManager/javascripts/flowplayer/flowplayer-3.2.7.swf", {
   }
 });
 </script>
-<% end %>
-</p>
+
 <p>
   <%= link_to "Edit", edit_movie_path(@movie) %> |
   <%= link_to "Destroy", @movie, :confirm => 'Are you sure?', :method => :delete %> |
