@@ -64,7 +64,7 @@ def master_encode(movieref, switch, switchname)
       @dir = "iphone/" + Time.now.strftime("%Y-%m-%d-%H-%M-%S") + "/"
       # convert!
       output = `cd #{@newdir} ; #{@iphoneprocess} #{movieref.loc_archived} #{@cloudfrontForIphone}#{@dir}`
-      Rails.logger.info "daemon - #{Time.now}: mobile: #{output}\n"
+      #Rails.logger.info "daemon - #{Time.now}: mobile: #{output}\n"
       # send directory to s3
       movieref.status = "Sending video TS shards to S3"
       movieref.save

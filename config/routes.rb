@@ -1,5 +1,7 @@
 MediaManager::Application.routes.draw do
   get 'movie_series/json_sermon_series'
+  get 'movies/json_weekly_youtube'
+
   resources :movie_series
 
   devise_for :users

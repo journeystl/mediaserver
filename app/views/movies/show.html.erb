@@ -42,24 +42,30 @@
 <style>
 a.rtmp {
       display:block;
-      width:640px;
-      height:360px;
       margin:25px 0;
       text-align:center;
       background-color:black;
 }
+a.website {
+      width:640px;
+      height:360px;
+}
+a.proof {
+      width:320px;
+      height:180px;
+}
 </style>
 
 <% if @movie.url_website != nil %>
-<p>
-<a class="rtmp" href="mp4:<%=@movie.url_website.split("/")[4,5].join("/").chomp(".mp4") %>"/>
+<p><strong>Website version</strong><br/>
+<a class="rtmp website" href="mp4:<%=@movie.url_website.split("/")[4,5].join("/").chomp(".mp4") %>"/>
 <img src="<%=@movie.thumbpic.url(:original)%>" width=640px height=360px alt="PLAY ME" />
 </a>
 </p>
 <% end %>
 <% if @movie.url_proof != nil %>
-<p>
-<a class="rtmp" href="mp4:<%=@movie.url_proof.split("/")[4,5].join("/").chomp(".mp4") %>"/>
+<p><strong>Proof version</strong><br/>
+<a class="rtmp proof" href="mp4:<%=@movie.url_proof.split("/")[4,5].join("/").chomp(".mp4") %>"/>
 <img src="<%=@movie.thumbpic.url(:original)%>" width=320px height=180px alt="PLAY ME" />
 </a>
 </p>

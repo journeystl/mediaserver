@@ -1,7 +1,14 @@
 class MoviesController < ApplicationController
-
-  before_filter :authenticate_user!, :except => :upload
+  before_filter :authenticate_user!, :except => [:json_weekly_youtube]
   skip_before_filter :verify_authenticity_token, :only => :upload
+
+  def json_weekly_youtube
+    @sat = Date.today
+    @sat -= @sat.wday + 1
+    @movies = Movie.where(:created_at.gt => @sat.midnight).excludes(:url_youtube => nil).entries
+    render :json => @movies
+  end
+
 
   # GET /movies
   # GET /movies.xml

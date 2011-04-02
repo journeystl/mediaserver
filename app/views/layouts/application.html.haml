@@ -35,6 +35,11 @@
               = link_to "Movie Series", movie_series_index_path
             %li 
               = link_to "Processing Queue", movies_path
+            %li
+              = link_to "JSON: Weekly Youtube", movies_json_weekly_youtube_path
+            %li
+              = link_to "JSON: All movies in series", movie_series_json_sermon_series_path
+
         - else  
           = link_to "Sign up", new_user_registration_path 
           |
