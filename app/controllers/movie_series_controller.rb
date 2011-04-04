@@ -2,9 +2,9 @@ class MovieSeriesController < ApplicationController
   before_filter :authenticate_user!, :except => [:json_sermon_series]
 
   def json_sermon_series
-    @series = MovieSeries.all(:conditions => {:category => "Sermon"}).entries
-    for a in @series 
-      a["allmovies"] = a.movies.excludes(:url_website => nil).entries
+    @series = MovieSeries.all(:conditions => {:category => "Sermon"}).order_by(:startDate.desc).entries
+    for a in @series
+      a["allmovies"] = a.movies.excludes(:url_website => nil).where(:parent => -1).order_by(:date.desc).entries
     end
     render :json => @series
   end
@@ -12,7 +12,7 @@ class MovieSeriesController < ApplicationController
   # GET /movie_series
   # GET /movie_series.xml
   def index
-    @movie_series = MovieSeries.all
+    @movie_series = MovieSeries.order_by(:startDate.desc)
 
     respond_to do |format|
       format.html # index.html.erb

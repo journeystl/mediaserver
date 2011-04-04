@@ -4,8 +4,9 @@ class MoviesController < ApplicationController
 
   def json_weekly_youtube
     @sat = Date.today
-    @sat -= @sat.wday + 1
-    @movies = Movie.where(:created_at.gt => @sat.midnight).excludes(:url_youtube => nil).entries
+    # TODO: delete the "+ 14" and change "created_at" to "date"
+    @sat -= @sat.wday + 1 + 14
+    @movies = Movie.where(:created_at.gt => @sat.midnight).excludes(:url_youtube => nil).order_by(:date.desc).entries
     render :json => @movies
   end
 
@@ -13,7 +14,7 @@ class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.xml
   def index
-    @allmovies = Movie.excludes(:status => "Finished").entries.sort{ |a,b| a.created_at <=> b.created_at}
+    @allmovies = Movie.excludes(:status => "Done!").order_by(:created_at.desc).entries
 
     respond_to do |format|
       format.html # index.html.erb

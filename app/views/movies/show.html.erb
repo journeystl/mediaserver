@@ -37,6 +37,12 @@
 <% if @movie.url_mobile != nil %>
   <li><a href="<%=@movie.url_mobile%>">iPhone m3u8 link</a></li>
 <% end %>
+<% if @movie.url_website != nil %>
+  <li><a href="<%=@movie.url_website%>">Website direct link to download</a></li>
+<% end %>
+<% if @movie.url_proof != nil %>
+  <li><a href="<%=@movie.url_proof%>">Proof direct link to download</a></li>
+<% end %>
 </ul>
 <%= javascript_include_tag "flowplayer/flowplayer-3.2.6.min.js" %>
 <style>

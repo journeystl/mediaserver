@@ -15,7 +15,7 @@ class MovieSeries
   references_many :movies
 
   def parentmovies
-    a = self.movies
+    a = self.movies.order_by(:date.desc)
     b = Array.new
 
     a.each do |c|
