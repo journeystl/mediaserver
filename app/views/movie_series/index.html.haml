@@ -2,18 +2,16 @@
 %ul
   - for movie_series in @movie_series
     %li
-      - if movie_series.thumbpic.exists? then
-        = image_tag movie_series.thumbpic.url(:thumb)
+      = image_tag movie_series.thumbpic.url(:thumb)
       = h movie_series.startDate
       = h movie_series.name
       = link_to "Show", movie_series
       = link_to "Edit", edit_movie_series_path(movie_series)
       / <haml:loud> link_to &amp;quot;Destroy&amp;quot;, movie_series, :confirm =&amp;gt; 'Are you sure?', :method =&amp;gt; :delete </haml:loud>
       %ul
-        - for movie in movie_series.parentmovies
+        - for movie in movie_series.allmovies
           %li
-            - if movie.thumbpic.exists? then
-              = image_tag movie.thumbpic.url(:thumb)
+            = image_tag movie.thumbpic.url(:thumb)
             = h movie.date
             \- #{h movie.category} - #{h movie.title}
             \#{link_to "Show", movie}
@@ -21,8 +19,7 @@
             %ul
               - for childmovie in movie.children
                 %li
-                  - if childmovie.thumbpic.exists? then
-                    = image_tag childmovie.thumbpic.url(:thumb)
+                  = image_tag childmovie.thumbpic.url(:thumb)
                   = h childmovie.date
                   \- #{h childmovie.category} - #{h childmovie.title}
                   \#{link_to "Show", childmovie}
@@ -31,8 +28,7 @@
 %ul
   - for movie in Movie.standalone
     %li
-      - if movie.thumbpic.exists? then
-        = image_tag movie.thumbpic.url(:thumb)
+      = image_tag movie.thumbpic.url(:thumb)
       = h movie.date
       \- #{h movie.category} - #{h movie.title}
       \#{link_to "Show", movie}
@@ -40,8 +36,7 @@
       %ul
         - for childmovie in movie.children
           %li
-            - if childmovie.thumbpic.exists? then
-              = image_tag childmovie.thumbpic.url(:thumb)
+            = image_tag childmovie.thumbpic.url(:thumb)
             = h childmovie.date
             \- #{h childmovie.category} - #{h childmovie.title}
             \#{link_to "Show", childmovie}

@@ -6,6 +6,7 @@ class MovieSeries
     :storage => :s3,
     :s3_credentials => "#{RAILS_ROOT}/config/amazon_s3.yml",
     :path           => ':attachment/:id/:style.:extension',
+    :default_url => '/mediaManager/images/missing.gif',
     :bucket => 'movie_series_pics'
   field :name, :type => String
   field :tagline, :type => String
@@ -15,14 +16,7 @@ class MovieSeries
   references_many :movies
 
   def parentmovies
-    a = self.movies.order_by(:date.desc)
-    b = Array.new
-
-    a.each do |c|
-      b << c unless (c.parent != -1)
-    end
-
-    return b
+    return self.movies.where(:parent=>-1).order_by(:date.desc)
   end
 
 end

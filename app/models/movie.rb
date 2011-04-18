@@ -9,6 +9,7 @@ class Movie
     :storage => :s3,
     :s3_credentials => "#{RAILS_ROOT}/config/amazon_s3.yml",
     :path           => ':attachment/:id/:style.:extension',
+    :default_url => '/mediaManager/images/missing.gif',
     :bucket => 'movie_pics'
 
   field :title, :type => String

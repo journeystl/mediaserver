@@ -5,8 +5,22 @@ class MovieSeriesController < ApplicationController
     @series = MovieSeries.all(:conditions => {:category => "Sermon"}).order_by(:startDate.desc).entries
     for a in @series
       a["allmovies"] = a.movies.excludes(:url_website => nil).order_by(:date.desc).entries
+      a["id"] = a.id
+      if a.thumbpic?
+        a["thumbpic_url"] = a.thumbpic.url
+      else 
+        a["thumbpic_url"] = ""
+      end
       for movie in a["allmovies"]
-        movie["thumbpic_url"] = movie.thumbpic.url
+        if movie.thumbpic?
+          movie["thumbpic_url"] = movie.thumbpic.url
+        else
+          movie["thumbpic_url"] = ""
+        end
+        movie["id"] = movie.id
+        if movie.parent == -1
+          movie.parent = ""
+        end
       end
     end
     render :json => @series
@@ -15,7 +29,10 @@ class MovieSeriesController < ApplicationController
   # GET /movie_series
   # GET /movie_series.xml
   def index
-    @movie_series = MovieSeries.order_by(:startDate.desc)
+    @movie_series = MovieSeries.order_by(:startDate.desc).entries
+    for a in @movie_series
+      a["allmovies"] = a.movies.where(:parent=>-1).excludes(:url_website => nil).order_by(:date.desc).entries
+    end
 
     respond_to do |format|
       format.html # index.html.erb

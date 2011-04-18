@@ -14,7 +14,7 @@
     <% for movie in movie_series.parentmovies %>
       <li>
       <% if movie.thumbpic.exists? then %>
-	      <%= image_tag movie.thumbpic.url(:small) %>
+	      <%= #image_tag movie.thumbpic.url(:small) %>
       <% end %>
       <%=h movie.date %> - <%=h movie.category %> - <%=h movie.title %>
       <%= link_to "Show", movie %>
@@ -23,7 +23,7 @@
       <% for childmovie in movie.children %>
         <li>
           <% if childmovie.thumbpic.exists? then %>
-	          <%= image_tag childmovie.thumbpic.url(:small) %>
+	          <%= #image_tag childmovie.thumbpic.url(:small) %>
           <% end %>
           <%=h childmovie.date %> - <%=h childmovie.category %> - <%=h childmovie.title %>
           <%= link_to "Show", childmovie %>
