@@ -4,7 +4,10 @@ class MovieSeriesController < ApplicationController
   def json_sermon_series
     @series = MovieSeries.all(:conditions => {:category => "Sermon"}).order_by(:startDate.desc).entries
     for a in @series
-      a["allmovies"] = a.movies.excludes(:url_website => nil).where(:parent => -1).order_by(:date.desc).entries
+      a["allmovies"] = a.movies.excludes(:url_website => nil).order_by(:date.desc).entries
+      for movie in a["allmovies"]
+        movie["thumbpic_url"] = movie.thumbpic.url
+      end
     end
     render :json => @series
   end

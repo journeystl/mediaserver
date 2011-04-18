@@ -110,26 +110,29 @@ while($running) do
   # Make sure that all untagged files have stopped changing .
   @allmovies = Movie.find(:conditions => {:status => "In queue"}).entries.sort{ |a,b| a.created_at <=> b.created_at}
   for @movie in @allmovies do
-    if @movie.filesize == nil
-      @movie.filesize = File.size(@movie.moviefile)
-      @movie.notchanged = false
-      @movie.archived = false
-      Rails.logger.info "daemon - #{Time.now}: #{@movie.moviefile} set filesize!\n"
-      @movie.save
-    elsif @movie.notchanged == false
-      if (@movie.filesize == File.size(@movie.moviefile)) 
-        Rails.logger.info "daemon - #{Time.now}: #{@movie.moviefile} moved to tagged area\n"
-        @movie.notchanged = true
-        # move file to tagged area.
-        @tagdir = @oritagdir + Time.now.strftime("%Y-%m-%d-%H-%M-%S-") + Time.now.usec.to_s + "/"
-        FileUtils.mkdir(@tagdir)
-        FileUtils.mv(@movie.moviefile, @tagdir)
-        @movie.moviefile = @tagdir + File.basename(@movie.moviefile)
-        @movie.status = "Moved to tagged area"
-        @movie.save
-      else
+    if File.exists?(@movie.moviefile)
+      if @movie.filesize == nil
         @movie.filesize = File.size(@movie.moviefile)
+        @movie.notchanged = false
+        @movie.archived = false
+        Rails.logger.info "daemon - #{Time.now}: #{@movie.moviefile} set filesize!\n"
         @movie.save
+      elsif @movie.notchanged == false
+        if (@movie.filesize == File.size(@movie.moviefile)) 
+          Rails.logger.info "daemon - #{Time.now}: #{@movie.moviefile} moved to tagged area\n"
+          @movie.notchanged = true
+          # move file to tagged area.
+          @tagdir = @oritagdir + Time.now.strftime("%Y-%m-%d-%H-%M-%S-") + Time.now.usec.to_s + "/"
+          FileUtils.mkdir(@tagdir)
+          newmoviefile = @tagdir + File.basename(@movie.moviefile).gsub(" ", "_")
+          FileUtils.mv(@movie.moviefile, newmoviefile)
+          @movie.moviefile = newmoviefile
+          @movie.status = "Moved to tagged area"
+          @movie.save
+        else
+          @movie.filesize = File.size(@movie.moviefile)
+          @movie.save
+        end
       end
     end
   end
