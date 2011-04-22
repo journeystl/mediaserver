@@ -7,7 +7,7 @@
   <% end %> 
   <% form.inputs :class=>"step", :id=>"meta" do %>
     <%= form.input :title, :input_html => { :class => 'required' } %>
-    <%= form.input :speaker, :input_html => { :class => 'required' } %>
+    <%= form.input :speaker  %>
     <%= form.input :date, :as => :date %>
     <li><label>Thumbnail: </label><%= form.file_field :thumbpic %></li>
   <% end %> 

@@ -31,7 +31,7 @@ class MovieSeriesController < ApplicationController
   def index
     @movie_series = MovieSeries.order_by(:startDate.desc).entries
     for a in @movie_series
-      a["allmovies"] = a.movies.where(:parent=>-1).excludes(:url_website => nil).order_by(:date.desc).entries
+      a["allmovies"] = a.movies.where(:parent=>-1).order_by(:date.desc).entries
     end
 
     respond_to do |format|

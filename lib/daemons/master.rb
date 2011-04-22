@@ -21,7 +21,7 @@ end
                      "process_mobile" => true,
                      "process_youtube" => true,
                      "process_website" => {:pre => "ffmpeg -i ", :post => "-threads 0 -acodec libfaac -ab 128k -vcodec libx264 -s 640x360 -vpre medium -crf 25  ", :ext => "mp4", :s3 => true},
-                     "process_mp3" => {:pre => "ffmpeg -i ", :post => "-threads 0 -f mp3  ", :ext => "mp3", :s3 => true},
+                     "process_mp3" => {:pre => "ffmpeg -i ", :post => "-threads 0 -acodec libmp3lame -ar 48000 -ab 64k -f mp3 -y  ", :ext => "mp3", :s3 => true},
                      "process_proof" => {:pre => "ffmpeg -i ", :post => "-threads 0 -acodec libfaac -ab 128k -vcodec libx264 -s 320x180 -vpre fast -crf 25  ", :ext => "mp4", :s3 => true}}
 
 
@@ -58,10 +58,10 @@ def master_encode(movieref, switch, switchname)
       movieref.status = "Reticulating splines for Apple"
       movieref.save
       # make directory
-      @newdir = File.dirname(movieref.loc_archived) + "/iphone"
+      @newdir = File.dirname(movieref.loc_archived) + "/iphone4"
       FileUtils.mkdir(@newdir)
       # anticipate directory on cloudfront and s3
-      @dir = "iphone/" + Time.now.strftime("%Y-%m-%d-%H-%M-%S") + "/"
+      @dir = "iphone4/" + Time.now.strftime("%Y-%m-%d-%H-%M-%S") + "/"
       # convert!
       output = `cd #{@newdir} ; #{@iphoneprocess} #{movieref.loc_archived} #{@cloudfrontForIphone}#{@dir}`
       #Rails.logger.info "daemon - #{Time.now}: mobile: #{output}\n"

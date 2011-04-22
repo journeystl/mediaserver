@@ -1,5 +1,14 @@
 #!/bin/sh
 
+BR=40k
+
+#ffmpeg -i $1 -acodec libmp3lame -ar 48000 -ab 64k -s 320×180 -vcodec libx264 -b $BR -flags +loop -cmp +chroma -partitions +parti4x4+partp8x8+partb8x8 -subq 5 -trellis 1 -refs 1 -coder 0 -me_range 16 -keyint_min 25 -sc_threshold 40 -i_qfactor 0.71 -bt 200k -maxrate $BR -bufsize $BR -rc_eq 'blurCplx^(1-qComp)' -qcomp 0.6 -qmin 10 -qmax 51 -qdiff 4 -level 30 -g 30 -async 2 sample$BR._pre.ts
+ffmpeg -i $1 -threads 0 -acodec libmp3lame -ar 48000 -ab $BR -vn -y sample$BR._pre.ts
+
+/home/ayl/rails/mediaManager/lib/aaron/segmenter2 sample$BR._pre.ts 10 video_$BR stream-$BR.m3u8 $2
+
+rm -f sample$BR._pre.ts
+
 BR=96k
 
 #ffmpeg -i $1 -acodec libmp3lame -ar 48000 -ab 64k -s 320×180 -vcodec libx264 -b $BR -flags +loop -cmp +chroma -partitions +parti4x4+partp8x8+partb8x8 -subq 5 -trellis 1 -refs 1 -coder 0 -me_range 16 -keyint_min 25 -sc_threshold 40 -i_qfactor 0.71 -bt 200k -maxrate $BR -bufsize $BR -rc_eq 'blurCplx^(1-qComp)' -qcomp 0.6 -qmin 10 -qmax 51 -qdiff 4 -level 30 -g 30 -async 2 sample$BR._pre.ts
@@ -30,10 +39,12 @@ rm -f sample$BR._pre.ts
 
 
 echo "#EXTM3U
-#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=96000
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=64000
+$2stream-40k.m3u8
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=300000
 $2stream-96k.m3u8
-#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=128000
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=350000
 $2stream-128k.m3u8
-#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=384000
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=725000
 $2stream-384k.m3u8" > varpl.m3u8
 
