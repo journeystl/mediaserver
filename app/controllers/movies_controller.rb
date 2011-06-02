@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.xml
   def index
-    @allmovies = Movie.excludes(:status => "Done!").order_by(:created_at.desc).entries
+    @allmovies = Movie.not_in(:status => ["Done!", "Trash"]).order_by(:created_at.desc).entries
 
     respond_to do |format|
       format.html # index.html.erb
@@ -103,10 +103,22 @@ class MoviesController < ApplicationController
   # DELETE /movies/1.xml
   def destroy
     @movie = Movie.find(params[:id])
-    @movie.destroy
+    @movie.status = "Trash"
+    @movie.save
 
     respond_to do |format|
-      format.html { redirect_to(movies_url) }
+      format.html { redirect_to(movie_series_index_url) }
+      format.xml  { head :ok }
+    end
+  end
+
+  def republish
+    @movie = Movie.find(params[:id])
+    @movie.status = "Done!"
+    @movie.save
+
+    respond_to do |format|
+      format.html { redirect_to(movie_series_index_url) }
       format.xml  { head :ok }
     end
   end

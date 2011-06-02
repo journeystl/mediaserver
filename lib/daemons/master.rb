@@ -108,7 +108,7 @@ end
 
 while($running) do
   # Make sure that all untagged files have stopped changing .
-  @allmovies = Movie.find(:conditions => {:status => "In queue"}).entries.sort{ |a,b| a.created_at <=> b.created_at}
+  @allmovies = Movie.where(:status => "In queue").entries.sort{ |a,b| a.created_at <=> b.created_at}
   for @movie in @allmovies do
     if File.exists?(@movie.moviefile)
       if @movie.filesize == nil
@@ -139,7 +139,7 @@ while($running) do
 
   # iterate through all movies prioritizing the lastest created ones, doing a
   # sanity check to see if processing switches matches url.
-  @allmovies = Movie.excludes(:status => "In queue").entries.sort{ |a,b| a.created_at <=> b.created_at}
+  @allmovies = Movie.not_in(:status => ["In queue", "Trash"]).entries.sort{ |a,b| a.created_at <=> b.created_at}
   for @movie in @allmovies do
     if @movie.archived == false or @movie.archived == nil
       master_encode(@movie, "archive", "archive")

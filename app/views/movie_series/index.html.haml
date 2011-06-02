@@ -1,4 +1,4 @@
-%h2 Movie Series
+%h2 Sermon Series
 %ul
   - for movie_series in @movie_series
     %li
@@ -16,6 +16,7 @@
             \- #{h movie.category} - #{h movie.title}
             \#{link_to "Show", movie}
             \#{link_to "Edit", edit_movie_path(movie)}
+            \#{link_to "Trash", movie, :confirm => 'Are you sure?', :method => :delete }
             %ul
               - for childmovie in movie.children
                 %li
@@ -24,23 +25,4 @@
                   \- #{h childmovie.category} - #{h childmovie.title}
                   \#{link_to "Show", childmovie}
                   \#{link_to "Edit", edit_movie_path(childmovie)}
-%h2 Standalone Movies
-%ul
-  - for movie in Movie.standalone
-    %li
-      = image_tag movie.thumbpic.url(:thumb)
-      = h movie.date
-      \- #{h movie.category} - #{h movie.title}
-      \#{link_to "Show", movie}
-      \#{link_to "Edit", edit_movie_path(movie)}
-      %ul
-        - for childmovie in movie.children
-          %li
-            = image_tag childmovie.thumbpic.url(:thumb)
-            = h childmovie.date
-            \- #{h childmovie.category} - #{h childmovie.title}
-            \#{link_to "Show", childmovie}
-            \#{link_to "Edit", edit_movie_path(childmovie)}
-= link_to "New movie series", new_movie_series_path
-|
-= link_to "Add new movie", new_movie_path
+                  \#{link_to "Trash", childmovie, :confirm => 'Are you sure?', :method => :delete }

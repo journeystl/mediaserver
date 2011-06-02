@@ -2,6 +2,8 @@ class Movie
   include Mongoid::Document
   include Mongoid::Paperclip
   include Mongoid::Timestamps
+  include Mongoid::MultiParameterAttributes
+
 
 
   has_attached_file :thumbpic, 

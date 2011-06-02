@@ -1,6 +1,7 @@
 class MovieSeries
   include Mongoid::Document
   include Mongoid::Paperclip
+  include Mongoid::MultiParameterAttributes
   has_attached_file :thumbpic,
     :styles => { :thumb => "60x60" },
     :storage => :s3,

@@ -2,6 +2,12 @@ MediaManager::Application.routes.draw do
   get 'movie_series/json_sermon_series'
   get 'movies/json_weekly_youtube'
 
+  get 'movie_series/standalone'
+  get 'movie_series/trash'
+  resources :movies do
+      get 'republish', :on => :member
+  end
+
   resources :movie_series
 
   devise_for :users

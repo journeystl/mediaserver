@@ -32,13 +32,25 @@
           = link_to "Sign out", destroy_user_session_path 
           %ul
             %li 
-              = link_to "Movie Series", movie_series_index_path
-            %li 
               = link_to "Processing Queue", movies_path
+            %li 
+              = link_to "Sermon Series", movie_series_index_path
+            %li 
+              = link_to "Standalone Movies", movie_series_standalone_path
+            %li 
+              = link_to "Trash", movie_series_trash_path
+
+          %ul
+            %li 
+              = link_to "New movie series", new_movie_series_path 
+            %li 
+              = link_to "Add new movie", new_movie_path
+          %ul
             %li
               = link_to "JSON: Weekly Youtube", movies_json_weekly_youtube_path
             %li
               = link_to "JSON: All movies in series", movie_series_json_sermon_series_path
+
 
         - else  
           = link_to "Sign up", new_user_registration_path 

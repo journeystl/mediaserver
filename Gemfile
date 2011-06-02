@@ -7,8 +7,8 @@ gem 'rails', '3.0.3'
 
 #gem 'sqlite3-ruby', :require => 'sqlite3'
 
-gem 'mongoid', '2.0.0.rc.6'  
-gem 'bson_ext' 
+gem 'mongoid', '2.0.0'  
+gem 'bson_ext', '1.3.1'
 
 gem 'formtastic', '~> 1.1.0'
 gem 'devise'
