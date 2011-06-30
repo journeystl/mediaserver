@@ -4,7 +4,7 @@ class MovieSeriesController < ApplicationController
   def json_sermon_series
     @series = MovieSeries.all(:conditions => {:category => "Sermon"}).order_by(:startDate.desc).entries
     for a in @series
-      a["allmovies"] = a.movies.excludes(:url_website => nil).excludes(:status => "Trash").order_by(:date.desc).entries
+      a["allmovies"] = a.movies.excludes(:url_mp3 => nil).excludes(:status => "Trash").order_by(:date.desc).entries
       a["id"] = a.id
       if a.thumbpic?
         a["thumbpic_url"] = a.thumbpic.url

@@ -58,10 +58,10 @@ def master_encode(movieref, switch, switchname)
       movieref.status = "Reticulating splines for Apple"
       movieref.save
       # make directory
-      @newdir = File.dirname(movieref.loc_archived) + "/iphone4"
+      @newdir = File.dirname(movieref.loc_archived) + "/iphone5"
       FileUtils.mkdir(@newdir)
       # anticipate directory on cloudfront and s3
-      @dir = "iphone4/" + Time.now.strftime("%Y-%m-%d-%H-%M-%S") + "/"
+      @dir = "iphone5/" + Time.now.strftime("%Y-%m-%d-%H-%M-%S") + "/"
       # convert!
       output = `cd #{@newdir} ; #{@iphoneprocess} #{movieref.loc_archived} #{@cloudfrontForIphone}#{@dir}`
       #Rails.logger.info "daemon - #{Time.now}: mobile: #{output}\n"
