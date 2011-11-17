@@ -6,6 +6,7 @@
     <%= form.input :speaker  %>
     <%= form.input :category, :as => :select, :collection => ["Sermon", "Clip", "Short", "Proof"] %>
     <%= form.input :parent, :as => :select, :collection => Movie.selectcollection, :include_blank => false %>
+    <%= form.input :url_youtube %>
     <%= form.input :status, :as => :hidden %>
     <li class="select optional"><%= form.label :movie_series %> <%= form.select :movie_series, options_for_select(MovieSeries.all.map{|ut| [ut.name,ut._id]}, @movie.movie_series.id), {:include_blank => 'None'} %></li>
     <%= form.input :scriptureref, :label => "Scripture Reference:" %>

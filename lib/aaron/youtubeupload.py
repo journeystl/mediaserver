@@ -12,6 +12,9 @@ import gdata.youtube.client
 import gdata.youtube.data
 import sys
 import os
+import re
+from atom import ExtensionElement
+from gdata.media import YOUTUBE_NAMESPACE
 
 moviefile = sys.argv[1]
 title = sys.argv[2]
@@ -20,6 +23,12 @@ keywords = sys.argv[4]
 
 
 CHUNK_SIZE = 10485760
+log = open("/home/ayl/pylog.log", "w")
+log.write(moviefile + "\n")
+log.write(title + "\n")
+log.write(description + "\n")
+log.write(keywords + "\n")
+log.close()
 
 client = gdata.youtube.client.YouTubeClient(source='yourCompany-yourAppName-v1')
 client.ClientLogin('video@journeyon.net', 'J0urneyCre8ive', client.source);
@@ -41,10 +50,12 @@ media_group = gdata.media.Group(
                 text="Nonprofit",
                 label="Nonprofit"),
                 #scheme=self.CATEGORIES_SCHEME),
-            private=None,
+            #private=gdata.media.Private(),
             player=None)
 
-entry = gdata.youtube.YouTubeVideoEntry(media=media_group, geo=None)
+acl = [ExtensionElement('accessControl',namespace=YOUTUBE_NAMESPACE,attributes={'action':'list','permission':'denied'})]
+entry = gdata.youtube.YouTubeVideoEntry(media=media_group, geo=None, extension_elements=acl)
 new_entry = uploader.UploadFile('http://uploads.gdata.youtube.com/resumable/feeds/api/users/default/uploads?key=AI39si79wLNca_6b8OkbxuSCQWUrfFPi27ipfe70oXWUzZGYrdsdE5rpD1WL4CcXhbm2iP6gpbSADty013w2AomFO87UvRiREA', entry=entry, headers={'Slug': os.path.basename(moviefile)})
 print 'Document uploaded: ' + new_entry.title.text
-
+match = re.search("video:([\-A-Za-z0-9_]+)", new_entry.id.text)
+print "Video uploaded: http://www.youtube.com/watch?v=%s" % match.group(1)

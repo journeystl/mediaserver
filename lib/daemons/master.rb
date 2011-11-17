@@ -15,6 +15,10 @@ end
 @iphoneprocess = "/home/ayl/rails/mediaManager/lib/aaron/splines.sh"
 
 @oritagdir = "/home/media/toProcess/Pipeline/tagged/"
+@archivedir = "/archive/movies/"
+
+@youtubesender = "/usr/bin/python /home/ayl/rails/mediaManager/lib/aaron/youtubeupload.py"
+
 @switches = ["process_venue", "process_mobile", "process_website", "process_mp3", "process_proof", "process_youtube"]
 @encodingSettings = {"process_venue" => {:pre => "ffmpeg -i ", :post => "-threads 0 -acodec libfaac -ab 128k -vcodec libx264 -vpre medium -crf 25  ", :ext => "mp4", :s3 => true},
                      "archive" => {:pre => "ffmpeg -i ", :post => "-threads 0 -acodec libfaac -ab 128k -vcodec libx264 -vpre medium -crf 20  ", :ext => "mp4", :s3 => false},
@@ -31,25 +35,40 @@ def master_encode(movieref, switch, switchname)
   movieref.save
   # TODO: check to see if moviefile exists. if not use loc_archived
   if switchname == "youtube"
-    if movieref.loc_archived != nil
-      movieref.status = "Sending to Youtube"
-      movieref.save
-      output = `google youtube post --category Nonprofit --title "#{movieref.title.gsub("\"", "\\\"")}" --summary "#{movieref.summary.gsub("\"", "\\\"")}" #{movieref.loc_archived} 2>&1`
-      if output =~ /Video uploaded: (.*)$/
-        movieref.url_youtube = $1
-      else
-        if movieref.url_website != nil
-          movieref.status = "Sending to lower quality to Youtube"
-          movieref.save
-          output = `google youtube post --category Nonprofit --title "#{movieref.title.gsub("\"", "\\\"")}" --summary "#{movieref.summary.gsub("\"", "\\\"")}" #{movieref.moviefile}-website.mp4 2>&1`
-          if output =~ /Video uploaded: (.*)$/
-            movieref.url_youtube = $1
-          end
-        end
-      end
-      Rails.logger.info "daemon - #{Time.now}: Youtube: #{output}\n"
+    if movieref.loc_archived == nil or not File.exists?(movieref.loc_archived)
+      master_encode(movieref, "archive", "archive")
+    end
+    movieref.status = "Sending to Youtube"
+    movieref.save
+    title = movieref.title.gsub("\"", "\\\"")
+    summary = movieref.date.strftime("%B %d, %Y") + " -- " + movieref.scriptureref + " -- " + movieref.summary.gsub("\"", "\\\"") + "\n\nThis sermon is part of our " + movieref.movie_series.name + " series. To find more sermons in this series, visit http://journeyon.net/media.\n"
+    tags = "Sermon TG Journey " + movieref.bookofbible
+
+    output = `#{@youtubesender} #{movieref.loc_archived} \"#{title}\" \"#{summary}\" \"#{tags}\"`
+    if output =~ /Video uploaded: (.*)$/
+      movieref.url_youtube = $1
       movieref.save
     end
+    Rails.logger.info "daemon - #{Time.now}: Youtube: #{output}\n"
+    #if movieref.loc_archived != nil
+      #movieref.status = "Sending to Youtube"
+      #movieref.save
+      #output = `google youtube post --category Nonprofit --title "#{movieref.title.gsub("\"", "\\\"")}" --summary "#{movieref.summary.gsub("\"", "\\\"")}" #{movieref.loc_archived} 2>&1`
+      #if output =~ /Video uploaded: (.*)$/
+        #movieref.url_youtube = $1
+      #else
+        #if movieref.url_website != nil
+          #movieref.status = "Sending to lower quality to Youtube"
+          #movieref.save
+          #output = `google youtube post --category Nonprofit --title "#{movieref.title.gsub("\"", "\\\"")}" --summary "#{movieref.summary.gsub("\"", "\\\"")}" #{movieref.moviefile}-website.mp4 2>&1`
+          #if output =~ /Video uploaded: (.*)$/
+            #movieref.url_youtube = $1
+          #end
+        #end
+      #end
+      #Rails.logger.info "daemon - #{Time.now}: Youtube: #{output}\n"
+      #movieref.save
+    #end
     return
   end
 
@@ -157,6 +176,18 @@ while($running) do
     @movie.save
   end
 
+  @allmovies = Movie.not_in(:status => ["In queue", "Trash"]).entries.sort{ |a,b| a.created_at <=> b.created_at}
+  for @movie in @allmovies do
+    if @movie.date < 6.months.ago and @movie.moviefile[0..15] != @archivedir
+      @movie.status = "Moving to archive area"
+      @movie.save
+      @dir = File.dirname(@movie.moviefile)
+      FileUtils.mv(@dir, @archivedir)
+      @movie.moviefile = @archivedir + @movie.moviefile[38..-1]
+      @movie.status = "Done!"
+      @movie.save
+    end
+  end
   Rails.logger.auto_flushing = true
   Rails.logger.info "This daemon is still running at #{Time.now}.\n"
   sleep 20
